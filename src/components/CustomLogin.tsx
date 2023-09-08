@@ -35,10 +35,6 @@ export const CustomLogin = (props: PaperProps) => {
 
   return (
     <>
-      {/* <Text size="lg" weight={500}>
-        Sign in with
-      </Text> */}
-
       <Group grow mb="md" mt="md">
         <SocialButtons />
       </Group>

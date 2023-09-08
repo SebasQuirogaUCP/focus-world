@@ -62,7 +62,7 @@ export function SocialButtons() {
   return (
     <Group position="center" sx={{ padding: 15 }}>
       <GoogleButton />
-      <TwitterButton href="https://twitter.com/mantinedev" target="_blank" />
+      <TwitterButton target="_blank" />
       <GithubButton />
       <DiscordButton />
     </Group>
