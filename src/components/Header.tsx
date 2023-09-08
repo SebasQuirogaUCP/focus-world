@@ -23,7 +23,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { useState } from "react";
-import { CustomLogin } from "./CustomLogin";
+import { CustomLogin } from "./Login";
 
 const useStyles = createStyles((theme) => ({
   mainSection: {
@@ -95,7 +95,7 @@ type HeaderTabsProps = {
   tabs: string[];
 };
 
-export function CustomHeader({ user, tabs }: HeaderTabsProps) {
+export function Header({ user, tabs }: HeaderTabsProps) {
   const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const [opened, { open, close }] = useDisclosure(true);

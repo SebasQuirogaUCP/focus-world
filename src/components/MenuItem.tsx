@@ -18,13 +18,11 @@ const variants = {
   },
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
-
 type Props = {
   children: React.ReactNode;
 };
 
-export const CustomMenuItem = ({ children }: Props) => {
+export const MenuItem = ({ children }: Props) => {
   return (
     <motion.li
       variants={variants}
@@ -32,8 +30,6 @@ export const CustomMenuItem = ({ children }: Props) => {
       whileTap={{ scale: 0.95 }}
     >
       {children}
-      {/* <div className="icon-placeholder" style={style} />
-      <div className="text-placeholder" style={style} /> */}
     </motion.li>
   );
 };

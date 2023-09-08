@@ -1,4 +1,4 @@
-import { CustomHeader } from "@/components/CustomHeader";
+import { Header } from "@/components/Header";
 import { AppShell, Navbar } from "@mantine/core";
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
         </Navbar>
       }
       header={
-        <CustomHeader
+        <Header
           tabs={["Settings"]}
           user={{
             name: "",
