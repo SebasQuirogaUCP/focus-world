@@ -11,14 +11,8 @@ export default function Home() {
         </Navbar>
       }
       header={
-        <Header
-          tabs={["Settings"]}
-          user={{
-            name: "",
-            image: "",
-          }}
-        />
-        // <Header height={60} p="xs">
+        <Header />
+        // <Header height={60} p="xs"ß>
         // </Header>
       }
       styles={(theme) => ({
