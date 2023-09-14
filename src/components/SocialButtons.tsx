@@ -1,6 +1,10 @@
 import { Button, ButtonProps, Group } from "@mantine/core";
-import { DiscordIcon, GithubIcon, TwitterIcon } from "@mantine/ds";
-import { GoogleIcon } from "./loginIcons/Google";
+import {
+  DiscordIcon,
+  GithubIcon,
+  GoogleIcon,
+  TwitterIcon,
+} from "./utils/Icons";
 
 const GoogleButton = (props: ButtonProps) => {
   return (
