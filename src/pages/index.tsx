@@ -1,30 +1,62 @@
 import { Header } from "@/components/Header";
-import { AppShell, Navbar } from "@mantine/core";
+import { SideNavBar } from "@/components/SideNavBar";
+import { AppShell, MantineProvider } from "@mantine/core";
+import { useToggle } from "@mantine/hooks";
 
+//TODO: Migrate index.tsx logic to _app.tsx and viceversa
 export default function Home() {
+  const [sideNavBarOpen, toggleOpenSideNavBar] = useToggle([false, true]);
+
   return (
-    <AppShell
-      padding="md"
-      navbar={
-        <Navbar width={{ base: 300 }} height={500} p="xs">
-          {/* Navbar content */}
-        </Navbar>
-      }
-      header={
-        <Header />
-        // <Header height={60} p="xs"ß>
-        // </Header>
-      }
-      styles={(theme) => ({
-        main: {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        colorScheme: "light",
+        colors: {
+          primary: [
+            "#674188",
+            "#674188",
+            "#674188",
+            "#674188",
+            "#674188",
+            "#C3ACD0",
+            "#C3ACD0",
+            "#C3ACD0",
+            "#C3ACD0",
+            "#C3ACD0",
+          ],
+
+          secondary: [
+            "#F7EFE5",
+            "#F7EFE5",
+            "#F7EFE5",
+            "#F7EFE5",
+            "#F7EFE5",
+            "#FFFBF5",
+            "#FFFBF5",
+            "#FFFBF5",
+            "#FFFBF5",
+            "#FFFBF5",
+          ],
         },
-      })}
+      }}
     >
-      {/* Your application here */}
-    </AppShell>
+      <AppShell
+        padding="md"
+        navbar={<SideNavBar open={sideNavBarOpen} toggleSideNavBar={toggleOpenSideNavBar } />}
+        header={<Header toggleSideNavBar={toggleOpenSideNavBar} />}
+        styles={(theme) => ({
+          main: {
+            backgroundColor:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[8]
+                : theme.colors.gray[0],
+          },
+        })}
+      >
+        {/* Your application here */}
+      </AppShell>
+    </MantineProvider>
   );
 }
