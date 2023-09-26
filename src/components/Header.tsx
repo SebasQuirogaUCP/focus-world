@@ -9,7 +9,7 @@ import {
   Tooltip,
   UnstyledButton,
   createStyles,
-  rem,
+  rem
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -115,9 +115,9 @@ export function Header({ toggleSideNavBar }: Props) {
         <CustomLogin />
       </Modal>
 
-      <Group position="apart">
-        <ActionIcon onClick={() => toggleSideNavBar()}>
-          <IconMenu2 size={"30"} color={"black"} />
+      <Group position="apart" spacing={"lg"}>
+        <ActionIcon onClick={() => toggleSideNavBar()} color="primary" ml={"md"}>
+          <IconMenu2 size={"20"} />
         </ActionIcon>
 
         <Group position="right">

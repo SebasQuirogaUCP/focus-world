@@ -1,24 +1,25 @@
 import {
-    ActionIcon,
-    Badge,
-    Code,
-    Group,
-    Navbar,
-    Text,
-    TextInput,
-    Tooltip,
-    UnstyledButton,
-    createStyles,
-    rem,
+  ActionIcon,
+  Badge,
+  Code,
+  Group,
+  Navbar,
+  Text,
+  TextInput,
+  Tooltip,
+  UnstyledButton,
+  createStyles,
+  rem,
+  useMantineTheme,
 } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 import {
-    IconBulb,
-    IconCheckbox,
-    IconLayoutSidebarRightCollapseFilled,
-    IconPlus,
-    IconSearch,
-    IconUser,
+  IconArrowBadgeLeftFilled,
+  IconBulb,
+  IconCheckbox,
+  IconPlus,
+  IconSearch,
+  IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -162,6 +163,8 @@ type Props = {
 export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
   const { classes } = useStyles();
   const { height } = useViewportSize();
+  const { colors } = useMantineTheme();
+  console.log("colors: ", colors.primary[0]);
 
   if (!open) return <></>;
 
@@ -200,15 +203,21 @@ export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
       p="md"
       className={classes.navbar}
     >
-      <TextInput
-        placeholder="Search"
-        size="xs"
-        icon={<IconSearch size="0.8rem" stroke={1.5} />}
-        rightSectionWidth={70}
-        rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
-        styles={{ rightSection: { pointerEvents: "none" } }}
-        mb="sm"
-      />
+      <Group noWrap>
+        <TextInput
+          placeholder="Search"
+          size="xs"
+          icon={<IconSearch size="0.8rem" stroke={1.5} />}
+          rightSectionWidth={70}
+          rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
+          styles={{ rightSection: { pointerEvents: "none" } }}
+          // mb="sm"
+        />
+        <ActionIcon onClick={toggleSideNavBar} color="primary">
+          <IconArrowBadgeLeftFilled size={"20"} color={colors.primary[0]} />
+        </ActionIcon>
+      </Group>
+
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>
       </Navbar.Section>
@@ -225,10 +234,6 @@ export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
         </Group>
         <div className={classes.collections}>{collectionLinks}</div>
       </Navbar.Section>
-
-      <ActionIcon onClick={toggleSideNavBar}>
-        <IconLayoutSidebarRightCollapseFilled size={"30"} color={"black"} />
-      </ActionIcon>
     </Navbar>
   );
 };

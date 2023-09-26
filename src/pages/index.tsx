@@ -15,16 +15,16 @@ export default function Home() {
         colorScheme: "light",
         colors: {
           primary: [
-            "#674188",
-            "#674188",
-            "#674188",
-            "#674188",
-            "#674188",
             "#C3ACD0",
             "#C3ACD0",
             "#C3ACD0",
             "#C3ACD0",
             "#C3ACD0",
+            "#674188",
+            "#674188",
+            "#674188",
+            "#674188",
+            "#674188",
           ],
 
           secondary: [
@@ -44,7 +44,12 @@ export default function Home() {
     >
       <AppShell
         padding="md"
-        navbar={<SideNavBar open={sideNavBarOpen} toggleSideNavBar={toggleOpenSideNavBar } />}
+        navbar={
+          <SideNavBar
+            open={sideNavBarOpen}
+            toggleSideNavBar={toggleOpenSideNavBar}
+          />
+        }
         header={<Header toggleSideNavBar={toggleOpenSideNavBar} />}
         styles={(theme) => ({
           main: {
