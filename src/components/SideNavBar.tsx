@@ -26,6 +26,7 @@ import Link from "next/link";
 const useStyles = createStyles((theme) => ({
   navbar: {
     paddingTop: 0,
+    backgroundColor: theme.colors.secondary[8],
   },
 
   section: {
@@ -164,7 +165,6 @@ export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
   const { classes } = useStyles();
   const { height } = useViewportSize();
   const { colors } = useMantineTheme();
-  console.log("colors: ", colors.primary[0]);
 
   if (!open) return <></>;
 
@@ -211,7 +211,6 @@ export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
           rightSectionWidth={70}
           rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
           styles={{ rightSection: { pointerEvents: "none" } }}
-          // mb="sm"
         />
         <ActionIcon onClick={toggleSideNavBar} color="primary">
           <IconArrowBadgeLeftFilled size={"20"} color={colors.primary[0]} />

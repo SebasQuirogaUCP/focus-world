@@ -9,13 +9,12 @@ import {
   Tooltip,
   UnstyledButton,
   createStyles,
-  rem
+  rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconChartHistogram,
   IconChevronDown,
-  IconFocus2,
   IconHeart,
   IconLogout,
   IconMenu2,
@@ -27,6 +26,7 @@ import {
 } from "@tabler/icons-react";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import { FocusDrawer } from "./FocusDrawer";
 import { CustomLogin } from "./Login";
 
 const useStyles = createStyles((theme) => ({
@@ -116,7 +116,11 @@ export function Header({ toggleSideNavBar }: Props) {
       </Modal>
 
       <Group position="apart" spacing={"lg"}>
-        <ActionIcon onClick={() => toggleSideNavBar()} color="primary" ml={"md"}>
+        <ActionIcon
+          onClick={() => toggleSideNavBar()}
+          color="primary"
+          ml={"md"}
+        >
           <IconMenu2 size={"20"} />
         </ActionIcon>
 
@@ -132,23 +136,19 @@ export function Header({ toggleSideNavBar }: Props) {
             </UnstyledButton>
           ) : (
             <Group spacing={"xs"}>
-              <ActionIcon>
+              <ActionIcon color="primary">
                 <Tooltip label="Stats">
-                  <IconChartHistogram size={"25"} stroke={"1"} color="black" />
+                  <IconChartHistogram size={"25"} stroke={"1"} />
                 </Tooltip>
               </ActionIcon>
 
-              <ActionIcon>
-                <Tooltip label="Focus">
-                  <IconFocus2 size={"25"} stroke={"1"} color="black" />
-                </Tooltip>
-              </ActionIcon>
+              <FocusDrawer />
 
               <Divider
                 orientation="vertical"
                 my={"xs"}
                 size={"xs"}
-                color="darkgray"
+                color="primary"
               />
               <Menu
                 width={260}
