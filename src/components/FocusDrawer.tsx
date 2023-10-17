@@ -7,17 +7,55 @@ import {
   Select,
   TextInput,
   Tooltip,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useInterval } from "@mantine/hooks";
 import { IconFocus2 } from "@tabler/icons-react";
+import { useMemo, useState } from "react";
 import { useStylesFocusDrawer } from "./stylesHooks/useStylesFocusDrawer";
 
 export const FocusDrawer = () => {
-  const [opened, { open, close }] = useDisclosure(false);
   const { colors } = useMantineTheme();
 
   const { classes } = useStylesFocusDrawer();
+
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const [focusPreferences, setFocusPreferences] = useState<{
+    hours: number;
+    minutes: number;
+    breakTime: number;
+  }>({
+    hours: 0,
+    minutes: 25,
+    breakTime: 5,
+  });
+
+  const hoursToMsConst = 3.6e6;
+  const minutesToMsConst = 60e3;
+
+  let timer = useMemo(() => {
+    console.info("Executed");
+    return (
+      focusPreferences.hours * hoursToMsConst +
+      focusPreferences.minutes * minutesToMsConst
+    );
+  }, [focusPreferences]);
+
+  const interval = useInterval(() => {
+    timer = timer - 1000;
+    if (timer <= 0) {
+      interval.stop();
+    }
+  }, 1000);
+
+  const startTimer = () => {
+    interval.start();
+  };
+
+  const stopTimer = () => {
+    interval.stop();
+  };
 
   return (
     <>
@@ -47,6 +85,13 @@ export const FocusDrawer = () => {
                 label="Minutes"
                 defaultValue={25}
                 className={classes.inputPrimaryBackground}
+                onChange={(e) =>
+                  setFocusPreferences({
+                    minutes: Number(e.target.value),
+                    hours: focusPreferences.hours,
+                    breakTime: focusPreferences.breakTime,
+                  })
+                }
               />
               <TextInput
                 type="number"
@@ -74,10 +119,11 @@ export const FocusDrawer = () => {
               <Button
                 variant="filled"
                 radius={"lg"}
-                color="primary"
+                color={`${interval.active ? "red" : "primary"}`}
                 styles={{ root: { color: colors.secondary[8] } }}
+                onClick={interval.active ? stopTimer : startTimer}
               >
-                Start
+                {interval.active ? "Stop" : "Start"}
               </Button>
             </Group>
           </Grid.Col>
