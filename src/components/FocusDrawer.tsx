@@ -7,31 +7,17 @@ import {
   Select,
   TextInput,
   Tooltip,
-  createStyles,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconFocus2 } from "@tabler/icons-react";
-
-const useStyles = createStyles((theme) => ({
-  inputPrimaryBackground: {
-    input: {
-      backgroundColor: theme.colors.secondary,
-      borderColor: theme.colors.primary[5],
-      borderStyle: "dashed",
-      color: theme.colors.primary[5],
-    },
-    label: {
-      color: theme.colors.primary[5],
-    },
-  },
-}));
+import { useStylesFocusDrawer } from "./stylesHooks/useStylesFocusDrawer";
 
 export const FocusDrawer = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const { colors } = useMantineTheme();
 
-  const { classes } = useStyles();
+  const { classes } = useStylesFocusDrawer();
 
   return (
     <>

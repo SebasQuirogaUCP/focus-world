@@ -4,16 +4,15 @@ import {
   Checkbox,
   Divider,
   Group,
-  PaperProps,
   PasswordInput,
   Stack,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { SocialButtons } from "./SocialButtons";
 
-export const CustomLogin = (props: PaperProps) => {
+export const CustomLogin = () => {
   const [type, toggle] = useToggle(["login", "register"]);
 
   const form = useForm({

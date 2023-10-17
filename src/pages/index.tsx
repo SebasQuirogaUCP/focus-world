@@ -61,6 +61,7 @@ export default function Home() {
         })}
       >
         {/* Your application here */}
+        <></>
       </AppShell>
     </MantineProvider>
   );
