@@ -30,13 +30,13 @@ export const convertMsToHMS = (ms: number) => {
   let minutes = Math.floor(seconds / 60);
   let hours = Math.floor(minutes / 60);
   seconds = seconds % 60;
-  minutes = seconds >= 30 ? minutes + 1 : minutes;
   minutes = minutes % 60;
   hours = hours % 24;
   return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}:${padTo2Digits(
     seconds
   )}`;
 };
+
 
 export const FocusDrawer = () => {
   const { colors } = useMantineTheme();
