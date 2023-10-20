@@ -1,13 +1,10 @@
 import {
   ActionIcon,
   Button,
-  Center,
   Drawer,
-  Flex,
   Grid,
   Group,
   Select,
-  Text,
   TextInput,
   Tooltip,
   useMantineTheme,
@@ -15,28 +12,12 @@ import {
 import { useDisclosure, useInterval } from "@mantine/hooks";
 import { IconFocus2 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
+import { Timer } from "./Timer";
 import { useStylesFocusDrawer } from "./stylesHooks/useStylesFocusDrawer";
+import { ConvertMsToHMS } from "./utils/ConvertMsToHMS";
 
 const hoursToMsConst = 3.6e6;
 const minutesToMsConst = 60e3;
-
-export const padTo2Digits = (num: number) => {
-  return num.toString().padStart(2, "0");
-};
-
-// BUG: when it get to ±30 seconds it changes the minutes
-export const convertMsToHMS = (ms: number) => {
-  let seconds = Math.floor(ms / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-  seconds = seconds % 60;
-  minutes = minutes % 60;
-  hours = hours % 24;
-  return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}:${padTo2Digits(
-    seconds
-  )}`;
-};
-
 
 export const FocusDrawer = () => {
   const { colors } = useMantineTheme();
@@ -57,10 +38,7 @@ export const FocusDrawer = () => {
     breakTime: 5,
   });
 
-  console.info(hmsTimer);
-
   let timer = useMemo(() => {
-    console.info("Executed");
     return (
       focusPreferences.hours * hoursToMsConst +
       focusPreferences.minutes * minutesToMsConst
@@ -68,7 +46,7 @@ export const FocusDrawer = () => {
   }, [focusPreferences]);
 
   const interval = useInterval(() => {
-    setHMSTimer(convertMsToHMS(timer));
+    setHMSTimer(ConvertMsToHMS(timer));
     timer = timer - 1000;
     if (timer <= 0) {
       interval.stop();
@@ -89,7 +67,7 @@ export const FocusDrawer = () => {
         opened={opened}
         onClose={close}
         title="Focus Settings"
-        position="bottom"
+        position="right"
         overlayProps={{ opacity: 0.5, blur: 4 }}
         styles={{
           header: { backgroundColor: colors.secondary },
@@ -98,7 +76,7 @@ export const FocusDrawer = () => {
         }}
       >
         <Grid>
-          <Grid.Col span={6}>
+          <Grid.Col span={12}>
             <Group grow>
               <TextInput
                 type="number"
@@ -168,41 +146,8 @@ export const FocusDrawer = () => {
             </Group>
           </Grid.Col>
 
-          <Grid.Col span={6}>
-            <Center>
-              <Group>
-                <Text
-                  align="center"
-                  style={{
-                    fontSize: "100px",
-                    fontFamily: "Helvetica Neue",
-                  }}
-                  color="primary"
-                  py={0}
-                >
-                  {hmsTimer?.slice(0, 5)}
-                </Text>
-                <Flex
-                  mih={100}
-                  gap="md"
-                  justify="flex-end"
-                  align="flex-end"
-                  direction="row"
-                  wrap="wrap"
-                >
-                  <Text
-                    align="end"
-                    size={"xl"}
-                    style={{
-                      fontFamily: "Helvetica Neue",
-                    }}
-                    color="primary"
-                  >
-                    {hmsTimer?.slice(6, 8)}
-                  </Text>
-                </Flex>
-              </Group>
-            </Center>
+          <Grid.Col span={12}>
+            {interval.active && <Timer counter={hmsTimer} />}
           </Grid.Col>
         </Grid>
       </Drawer>
