@@ -1,11 +1,11 @@
 import { Header } from "@/components/Header";
 import { SideNavBar } from "@/components/SideNavBar";
+import { Speedometer } from "@/components/Speedometer";
 import { AppShell, MantineProvider } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 
-//TODO: Migrate index.tsx logic to _app.tsx and viceversa
 export default function Home() {
-  const [sideNavBarOpen, toggleOpenSideNavBar] = useToggle([false, true]);
+  const [sideNavBarOpen, toggleOpenSideNavBar] = useToggle([true, true]);
 
   return (
     <MantineProvider
@@ -60,8 +60,7 @@ export default function Home() {
           },
         })}
       >
-        {/* Your application here */}
-        <></>
+        <Speedometer />
       </AppShell>
     </MantineProvider>
   );
