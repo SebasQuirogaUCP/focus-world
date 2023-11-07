@@ -1,18 +1,18 @@
 import {
-  ActionIcon,
-  Button,
-  Drawer,
-  Grid,
-  Group,
-  Select,
-  TextInput,
-  Tooltip,
-  useMantineTheme,
+    ActionIcon,
+    Button,
+    Drawer,
+    Grid,
+    Group,
+    Select,
+    TextInput,
+    Tooltip,
+    useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure, useInterval } from "@mantine/hooks";
 import { IconFocus2 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { Timer } from "./Timer";
+import { Timer } from "./pomodoroTimer/Timer";
 import { useStylesFocusDrawer } from "./stylesHooks/useStylesFocusDrawer";
 import { ConvertMsToHMS } from "./utils/ConvertMsToHMS";
 

@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { SideNavBar } from "@/components/SideNavBar";
-import { Speedometer } from "@/components/Speedometer";
+import { Timer } from "@/components/pomodoroTimer/Timer";
 import { AppShell, MantineProvider } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 
@@ -60,7 +60,7 @@ export default function Home() {
           },
         })}
       >
-        <Speedometer />
+        <Timer counter={"00:25:00"} />
       </AppShell>
     </MantineProvider>
   );

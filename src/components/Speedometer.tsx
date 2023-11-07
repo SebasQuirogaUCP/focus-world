@@ -1,8 +1,12 @@
+import { useMantineTheme } from "@mantine/core";
 import ReactECharts from "echarts-for-react";
+import { EChartsOption } from "echarts-for-react/lib/types";
 
 // TODO: only import what is needed to avoid max bundle size
 export const Speedometer = () => {
-  const options = {
+  const theme = useMantineTheme();
+
+  const options: EChartsOption = {
     series: [
       {
         type: "gauge",
@@ -12,7 +16,7 @@ export const Speedometer = () => {
         max: 240,
         splitNumber: 12,
         itemStyle: {
-          color: "#58D9F9",
+          color: theme.colors.primary[8],
           shadowColor: "rgba(0,138,255,0.45)",
           shadowBlur: 10,
           shadowOffsetX: 2,
@@ -54,21 +58,15 @@ export const Speedometer = () => {
           color: "#999",
           fontSize: 20,
         },
-        title: {
-          show: false,
-        },
         detail: {
-          backgroundColor: "#fff",
-          borderColor: "#999",
-          borderWidth: 2,
+          backgroundColor: "transparent",
           width: "100%",
-          lineHeight: 40,
+          lineHeight: 50,
           height: 40,
-          borderRadius: 8,
-          offsetCenter: [0, "35%"],
+          offsetCenter: [0, "20%"],
           valueAnimation: true,
           formatter: function (value: any) {
-            return "{value|" + value.toFixed(0) + "}{unit|km/h}";
+            return "{value|" + value.toFixed(0) + "}{unit|min}";
           },
           rich: {
             value: {
@@ -85,7 +83,7 @@ export const Speedometer = () => {
         },
         data: [
           {
-            value: 100,
+            value: 250,
           },
         ],
       },
@@ -93,21 +91,25 @@ export const Speedometer = () => {
   };
 
   const containerStyle = {
-    width: "100%", // Take up 100% of the parent's width
-    height: "100vh", // Take up 100% of the viewport's height
+    width: "100%",
+    height: "80%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   };
 
   const chartStyle = {
-    width: "90%", // Adjust the width as needed
-    height: "90%", // Adjust the height as needed
+    width: "100%",
+    height: "100%",
   };
 
   return (
     <div style={containerStyle}>
-      <ReactECharts option={options} style={chartStyle} />
+      <ReactECharts
+        option={options}
+        style={chartStyle}
+        opts={{ renderer: "svg" }}
+      />
     </div>
   );
 };
