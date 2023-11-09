@@ -1,1 +1,6 @@
-export type TimerActiveState = { active: boolean };
+export type TimerActiveState = {
+  active: boolean;
+  hours: number;
+  minutes: number;
+  breakTime: number;
+};

@@ -60,7 +60,7 @@ export default function Home() {
           },
         })}
       >
-        <Timer counter={"00:25:00"} />
+        <Timer />
       </AppShell>
     </MantineProvider>
   );
