@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import { FocusDrawer } from "./FocusDrawer";
 import { HeaderMenu } from "./HeaderMenu";
 import { CustomLogin } from "./Login";
+import { TaskDrawer } from "./TasksDrawer";
 import { useStylesHeader } from "./stylesHooks/useStylesHeader";
 
 type Props = {
@@ -60,6 +61,8 @@ export function Header({ toggleSideNavBar }: Props) {
               </ActionIcon>
 
               <FocusDrawer />
+
+              <TaskDrawer />
 
               <Divider
                 orientation="vertical"
