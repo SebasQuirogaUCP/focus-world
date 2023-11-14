@@ -23,6 +23,11 @@ const getItemStyle = (
   isDragging: boolean,
   draggableStyle: DraggingStyle | NotDraggingStyle | undefined
 ): CSSProperties => {
+  const transform =
+    draggableStyle?.transform && isDragging
+      ? draggableStyle.transform.replace(/\(.+\,/, "(0,")
+      : undefined;
+
   return {
     userSelect: "none",
     padding: grid * 2,
@@ -30,6 +35,8 @@ const getItemStyle = (
     backgroundColor: isDragging ? "lightgreen" : "grey",
     cursor: "pointer",
     ...draggableStyle,
+    left: "0 !important",
+    // transform,
   };
 };
 
@@ -54,24 +61,38 @@ export const TaskDrawer = () => {
           title: { color: colors.primary[8], fontWeight: 500 },
         }}
       >
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" direction="vertical">
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((item: TaskState, index: number) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <Card
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.description}
-                    </Card>
-                  )}
+                  {(provided, snapshot) => {
+                    let transform = provided.draggableProps.style?.transform;
+                    if (snapshot.isDragging && transform) {
+                      transform = transform.replace(/\(.+\,/, "(0,");
+                    }
+
+                    const style = {
+                      ...provided.draggableProps.style,
+                      transform,
+                      left: "0 !important",
+                    };
+
+                    return (
+                      <Card
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                        // style={style}
+                      >
+                        {item.description}
+                      </Card>
+                    );
+                  }}
                 </Draggable>
               ))}
               {provided.placeholder}
