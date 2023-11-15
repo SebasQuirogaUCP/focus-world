@@ -3,40 +3,40 @@ import {
   ActionIcon,
   Card,
   Drawer,
+  Grid,
+  Textarea,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconListCheck } from "@tabler/icons-react";
-import { CSSProperties } from "react";
+import {
+  IconHandGrab,
+  IconListCheck
+} from "@tabler/icons-react";
+import { CSSProperties, useState } from "react";
 import {
   Draggable,
   DraggingStyle,
   Droppable,
   NotDraggingStyle,
 } from "react-beautiful-dnd";
-import { TaskState } from "./data/TaskState";
-
-const grid = 8;
+import { TaskState } from "../data/TaskState";
+import { TaskDrawerHeader } from "./TaskDrawerHeader";
 
 const getItemStyle = (
   isDragging: boolean,
-  draggableStyle: DraggingStyle | NotDraggingStyle | undefined
+  draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
+  primaryColor: string
 ): CSSProperties => {
-  const transform =
-    draggableStyle?.transform && isDragging
-      ? draggableStyle.transform.replace(/\(.+\,/, "(0,")
-      : undefined;
-
   return {
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 0 ${grid}px 0`,
-    backgroundColor: isDragging ? "lightgreen" : "grey",
+    padding: `0px 10px 0 10px`,
+    margin: `0 0 10px 0`,
+    // border: `2px dashed ${primaryColor}`,
     cursor: "pointer",
     ...draggableStyle,
     left: "0 !important",
-    // transform,
+    border: `1px solid ${primaryColor}`,
+    borderRadius: "10px",
   };
 };
 
@@ -44,6 +44,8 @@ export const TaskDrawer = () => {
   const { colors } = useMantineTheme();
 
   const [opened, { open, close }] = useDisclosure(false);
+
+  const [newTasks, setNewTasks] = useState<string[]>();
 
   const tasks = useAppStore((s) => s.tasks);
 
@@ -67,17 +69,6 @@ export const TaskDrawer = () => {
               {tasks.map((item: TaskState, index: number) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => {
-                    let transform = provided.draggableProps.style?.transform;
-                    if (snapshot.isDragging && transform) {
-                      transform = transform.replace(/\(.+\,/, "(0,");
-                    }
-
-                    const style = {
-                      ...provided.draggableProps.style,
-                      transform,
-                      left: "0 !important",
-                    };
-
                     return (
                       <Card
                         ref={provided.innerRef}
@@ -85,11 +76,35 @@ export const TaskDrawer = () => {
                         {...provided.dragHandleProps}
                         style={getItemStyle(
                           snapshot.isDragging,
-                          provided.draggableProps.style
+                          provided.draggableProps.style,
+                          colors.primary[8]
                         )}
-                        // style={style}
                       >
-                        {item.description}
+                        <Grid>
+                          <Grid.Col span={11} pr={0}>
+                            <Textarea
+                              rightSection={<TaskDrawerHeader />}
+                              value={item.description}
+                              onChange={() => {}}
+                              styles={{
+                                input: { border: "none", padding: "0 0" },
+                                rightSection: {
+                                  display: "flex",
+                                  justifyContent: "end",
+                                  alignItems: "flex-start",
+                                },
+                              }}
+                            />
+                          </Grid.Col>
+
+                          <Grid.Col span={1} pl={0}>
+                            <ActionIcon>
+                              <IconHandGrab
+                                style={{ width: "70%", stroke: "1.5" }}
+                              />
+                            </ActionIcon>
+                          </Grid.Col>
+                        </Grid>
                       </Card>
                     );
                   }}
