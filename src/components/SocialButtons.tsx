@@ -1,11 +1,16 @@
 import { Button, ButtonProps, Group } from "@mantine/core";
-import { DiscordIcon, GithubIcon, TwitterIcon } from "@mantine/ds";
-import { GoogleIcon } from "./loginIcons/Google";
+import { signIn } from "next-auth/react";
+import {
+  DiscordIcon,
+  GithubIcon,
+  GoogleIcon,
+  TwitterIcon,
+} from "./utils/Icons";
 
 const GoogleButton = (props: ButtonProps) => {
   return (
-    <Button variant="default" color="gray" {...props}>
-      <GoogleIcon />
+    <Button variant="default" color="gray" {...props} onClick={() => signIn()}>
+      <GoogleIcon size={"1rem"} />
     </Button>
   );
 };
@@ -23,6 +28,7 @@ const DiscordButton = (props: ButtonProps) => {
         },
       })}
       {...props}
+      onClick={() => signIn()}
     >
       <DiscordIcon size="1rem" />
     </Button>
@@ -33,7 +39,7 @@ const TwitterButton = (
   props: ButtonProps & React.ComponentPropsWithoutRef<"a">
 ) => {
   return (
-    <Button component="a" variant="default" {...props}>
+    <Button component="a" variant="default" {...props} onClick={() => signIn()}>
       <TwitterIcon size="1rem" color="#00ACEE" />
     </Button>
   );
@@ -52,6 +58,7 @@ const GithubButton = (props: ButtonProps) => {
             theme.colors.dark[theme.colorScheme === "dark" ? 9 : 6],
         },
       })}
+      onClick={() => signIn()}
     >
       <GithubIcon size="1rem" />
     </Button>
