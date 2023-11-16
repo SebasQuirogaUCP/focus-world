@@ -1,18 +1,17 @@
 import { useAppStore } from "@/store/useAppStore";
 import {
   ActionIcon,
+  Button,
   Card,
   Drawer,
   Grid,
+  Stack,
   Textarea,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconHandGrab,
-  IconListCheck
-} from "@tabler/icons-react";
+import { IconHandGrab, IconListCheck } from "@tabler/icons-react";
 import { CSSProperties, useState } from "react";
 import {
   Draggable,
@@ -63,57 +62,69 @@ export const TaskDrawer = () => {
           title: { color: colors.primary[8], fontWeight: 500 },
         }}
       >
-        <Droppable droppableId="droppable" direction="vertical">
-          {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {tasks.map((item: TaskState, index: number) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => {
-                    return (
-                      <Card
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style,
-                          colors.primary[8]
-                        )}
-                      >
-                        <Grid>
-                          <Grid.Col span={11} pr={0}>
-                            <Textarea
-                              rightSection={<TaskDrawerHeader />}
-                              value={item.description}
-                              onChange={() => {}}
-                              styles={{
-                                input: { border: "none", padding: "0 0" },
-                                rightSection: {
-                                  display: "flex",
-                                  justifyContent: "end",
-                                  alignItems: "flex-start",
-                                },
-                              }}
-                            />
-                          </Grid.Col>
+        <Stack>
+          <Button
+            fullWidth
+            variant="outline"
+            size="xs"
+            mb={"md"}
+            color="primary"
+          >
+            Create Task
+          </Button>
 
-                          <Grid.Col span={1} pl={0}>
-                            <ActionIcon>
-                              <IconHandGrab
-                                style={{ width: "70%", stroke: "1.5" }}
+          <Droppable droppableId="droppable" direction="vertical">
+            {(provided, snapshot) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {tasks.map((item: TaskState, index: number) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => {
+                      return (
+                        <Card
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style,
+                            colors.primary[8]
+                          )}
+                        >
+                          <Grid>
+                            <Grid.Col span={11} pr={0}>
+                              <Textarea
+                                rightSection={<TaskDrawerHeader />}
+                                value={item.description}
+                                onChange={() => {}}
+                                styles={{
+                                  input: { border: "none", padding: "0 0" },
+                                  rightSection: {
+                                    display: "flex",
+                                    justifyContent: "end",
+                                    alignItems: "flex-start",
+                                  },
+                                }}
                               />
-                            </ActionIcon>
-                          </Grid.Col>
-                        </Grid>
-                      </Card>
-                    );
-                  }}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                            </Grid.Col>
+
+                            <Grid.Col span={1} pl={0}>
+                              <ActionIcon>
+                                <IconHandGrab
+                                  style={{ width: "70%", stroke: "1.5" }}
+                                />
+                              </ActionIcon>
+                            </Grid.Col>
+                          </Grid>
+                        </Card>
+                      );
+                    }}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </Stack>
       </Drawer>
 
       <ActionIcon onClick={open} color="primary">
