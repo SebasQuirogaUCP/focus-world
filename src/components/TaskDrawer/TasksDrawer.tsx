@@ -5,13 +5,15 @@ import {
   Card,
   Drawer,
   Grid,
+  Group,
   Stack,
   Textarea,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconHandGrab, IconListCheck } from "@tabler/icons-react";
+import { IconHandGrab, IconListCheck, IconWand } from "@tabler/icons-react";
+import { nanoid } from "nanoid";
 import { CSSProperties, useState } from "react";
 import {
   Draggable,
@@ -25,17 +27,19 @@ import { TaskDrawerHeader } from "./TaskDrawerHeader";
 const getItemStyle = (
   isDragging: boolean,
   draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
-  primaryColor: string
+  primaryColor: string,
+  editMode: boolean
 ): CSSProperties => {
   return {
     padding: `0px 10px 0 10px`,
     margin: `0 0 10px 0`,
-    // border: `2px dashed ${primaryColor}`,
     cursor: "pointer",
-    ...draggableStyle,
     left: "0 !important",
-    border: `1px solid ${primaryColor}`,
+    border: editMode
+      ? `2px dashed ${primaryColor}`
+      : `1px solid ${primaryColor}`,
     borderRadius: "10px",
+    ...draggableStyle,
   };
 };
 
@@ -44,9 +48,9 @@ export const TaskDrawer = () => {
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const [newTasks, setNewTasks] = useState<string[]>();
+  const existingTasks = useAppStore((s) => s.tasks);
 
-  const tasks = useAppStore((s) => s.tasks);
+  const [tasks, setTasks] = useState<TaskState[]>(existingTasks);
 
   return (
     <>
@@ -69,6 +73,18 @@ export const TaskDrawer = () => {
             size="xs"
             mb={"md"}
             color="primary"
+            onClick={() =>
+              setTasks([
+                ...tasks,
+                {
+                  createdAt: new Date(),
+                  description: "",
+                  id: nanoid(),
+                  state: "PENDING",
+                  editMode: true,
+                },
+              ])
+            }
           >
             Create Task
           </Button>
@@ -76,8 +92,8 @@ export const TaskDrawer = () => {
           <Droppable droppableId="droppable" direction="vertical">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {tasks.map((item: TaskState, index: number) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                {tasks.map((task: TaskState, index: number) => (
+                  <Draggable key={task.id} draggableId={task.id} index={index}>
                     {(provided, snapshot) => {
                       return (
                         <Card
@@ -87,24 +103,68 @@ export const TaskDrawer = () => {
                           style={getItemStyle(
                             snapshot.isDragging,
                             provided.draggableProps.style,
-                            colors.primary[8]
+                            colors.primary[8],
+                            task.editMode
                           )}
                         >
                           <Grid>
                             <Grid.Col span={11} pr={0}>
-                              <Textarea
-                                rightSection={<TaskDrawerHeader />}
-                                value={item.description}
-                                onChange={() => {}}
-                                styles={{
-                                  input: { border: "none", padding: "0 0" },
-                                  rightSection: {
-                                    display: "flex",
-                                    justifyContent: "end",
-                                    alignItems: "flex-start",
-                                  },
-                                }}
-                              />
+                              <>
+                                <Textarea
+                                  rightSection={<TaskDrawerHeader />}
+                                  value={task.description}
+                                  onChange={() => {}}
+                                  styles={{
+                                    input: { border: "none", padding: "0 0" },
+                                    rightSection: {
+                                      display: "flex",
+                                      justifyContent: "end",
+                                      alignItems: "flex-start",
+                                    },
+                                  }}
+                                />
+                                {task.editMode && (
+                                  <Group spacing={0}>
+                                    <Button
+                                      variant="subtle"
+                                      color="green"
+                                      size="xs"
+                                      px={0}
+                                    >
+                                      Save
+                                    </Button>
+
+                                    <Button
+                                      variant="subtle"
+                                      color="red"
+                                      size="xs"
+                                      pl={"xs"}
+                                      pr={0}
+                                    >
+                                      Remove
+                                    </Button>
+
+                                    <Button
+                                      variant="subtle"
+                                      color="dark"
+                                      size="xs"
+                                      px={"xs"}
+                                    >
+                                      <Tooltip
+                                        label={"AI Assistant"}
+                                        styles={{ tooltip: { fontSize: 10 } }}
+                                        position="bottom"
+                                      >
+                                        <IconWand
+                                          stroke={1}
+                                          color="black"
+                                          size={20}
+                                        />
+                                      </Tooltip>
+                                    </Button>
+                                  </Group>
+                                )}
+                              </>
                             </Grid.Col>
 
                             <Grid.Col span={1} pl={0}>
@@ -137,4 +197,6 @@ export const TaskDrawer = () => {
 };
 
 // TODO:
-// 1. DnD only vertically to avoid scrollbar on the x Axis
+// 0. Arreglar estilos de botones (paddings)
+// 1. Apply the onClick for saving (changing editMode to false) and removing
+// 2. Create servicies and logic for AI assi

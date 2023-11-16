@@ -4,4 +4,5 @@ export type TaskState = {
   createdAt: Date;
   state: "PROGRESS" | "COMPLETED" | "PENDING";
   aiGenerated?: boolean;
+  editMode: boolean;
 };

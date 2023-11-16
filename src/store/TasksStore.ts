@@ -10,18 +10,21 @@ export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
       id: "1",
       description: "Testing DnD",
       state: "PROGRESS",
+      editMode: false,
     },
     {
       createdAt: new Date(),
       id: "2",
       description: "Opening Teams",
       state: "PROGRESS",
+      editMode: false,
     },
     {
       createdAt: new Date(),
       id: "3",
       description: "Just for fun",
       state: "PROGRESS",
+      editMode: false,
     },
   ],
 });
