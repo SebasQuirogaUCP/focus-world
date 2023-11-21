@@ -14,7 +14,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconHandGrab, IconListCheck, IconWand } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import {
   Draggable,
   DraggingStyle,
@@ -34,12 +34,12 @@ const getItemStyle = (
     padding: `0px 10px 0 10px`,
     margin: `0 0 10px 0`,
     cursor: "pointer",
+    ...draggableStyle,
     left: "0 !important",
     border: editMode
       ? `2px dashed ${primaryColor}`
       : `1px solid ${primaryColor}`,
     borderRadius: "10px",
-    ...draggableStyle,
   };
 };
 
@@ -51,6 +51,10 @@ export const TaskDrawer = () => {
   const existingTasks = useAppStore((s) => s.tasks);
 
   const [tasks, setTasks] = useState<TaskState[]>(existingTasks);
+
+  useEffect(() => {
+    setTasks(existingTasks);
+  }, [existingTasks]);
 
   return (
     <>
