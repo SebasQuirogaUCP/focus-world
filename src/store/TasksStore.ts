@@ -6,21 +6,21 @@ export type TaskStoreState = { tasks: TaskState[] };
 export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
   tasks: [
     {
-      createdAt: new Date(),
+      createdAt: new Date().toLocaleDateString(),
       id: "1",
       description: "Testing DnD",
       state: "PROGRESS",
       editMode: false,
     },
     {
-      createdAt: new Date(),
+      createdAt: new Date().toLocaleDateString(),
       id: "2",
       description: "Opening Teams",
       state: "PROGRESS",
       editMode: false,
     },
     {
-      createdAt: new Date(),
+      createdAt: new Date().toLocaleDateString(),
       id: "3",
       description: "Just for fun",
       state: "PROGRESS",

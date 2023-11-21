@@ -1,7 +1,7 @@
 export type TaskState = {
   id: string;
   description: string;
-  createdAt: Date;
+  createdAt: string;
   state: "PROGRESS" | "COMPLETED" | "PENDING";
   aiGenerated?: boolean;
   editMode: boolean;

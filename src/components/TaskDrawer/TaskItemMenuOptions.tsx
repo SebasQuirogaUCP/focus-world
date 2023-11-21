@@ -1,10 +1,19 @@
+import { RemoveTaskInStore } from "@/services/RemoveTaskInStore";
 import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
 
-export const TaskDrawerHeader = () => {
+type Props = {
+  taskId: string;
+};
+
+export const TaskItemMenuOptions = ({ taskId }: Props) => {
   const [opened, { open, close }] = useDisclosure();
   const { colors } = useMantineTheme();
+
+  const onRemoveTask = (taskId: string) => {
+    RemoveTaskInStore(taskId);
+  };
 
   return (
     <Menu
@@ -55,6 +64,7 @@ export const TaskDrawerHeader = () => {
               🙀
             </span>
           }
+          onClick={() => onRemoveTask(taskId)}
         >
           Remove Task
         </Menu.Item>

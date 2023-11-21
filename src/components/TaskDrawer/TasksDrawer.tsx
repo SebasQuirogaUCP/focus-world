@@ -1,3 +1,4 @@
+import { AddTaskInStore } from "@/services/AddTaskInStore";
 import { useAppStore } from "@/store/useAppStore";
 import {
   ActionIcon,
@@ -14,34 +15,11 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconHandGrab, IconListCheck, IconWand } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CSSProperties, useEffect, useState } from "react";
-import {
-  Draggable,
-  DraggingStyle,
-  Droppable,
-  NotDraggingStyle,
-} from "react-beautiful-dnd";
+import { useEffect, useState } from "react";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { TaskState } from "../data/TaskState";
-import { TaskDrawerHeader } from "./TaskDrawerHeader";
-
-const getItemStyle = (
-  isDragging: boolean,
-  draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
-  primaryColor: string,
-  editMode: boolean
-): CSSProperties => {
-  return {
-    padding: `0px 10px 0 10px`,
-    margin: `0 0 10px 0`,
-    cursor: "pointer",
-    ...draggableStyle,
-    left: "0 !important",
-    border: editMode
-      ? `2px dashed ${primaryColor}`
-      : `1px solid ${primaryColor}`,
-    borderRadius: "10px",
-  };
-};
+import { BuildDnDStyles } from "../utils/BuildDnDStyles";
+import { TaskItemMenuOptions } from "./TaskItemMenuOptions";
 
 export const TaskDrawer = () => {
   const { colors } = useMantineTheme();
@@ -52,9 +30,27 @@ export const TaskDrawer = () => {
 
   const [tasks, setTasks] = useState<TaskState[]>(existingTasks);
 
+  const [newTaskDescription, setNewTaskDescription] = useState<string>();
+
   useEffect(() => {
     setTasks(existingTasks);
   }, [existingTasks]);
+
+  const onSaveTask = () => {
+    if (newTaskDescription) {
+      const newTask: TaskState = {
+        createdAt: new Date().toLocaleDateString(),
+        description: newTaskDescription,
+        editMode: false,
+        id: nanoid(),
+        state: "PENDING",
+        aiGenerated: false,
+      };
+      AddTaskInStore(newTask);
+      setNewTaskDescription("");
+      return;
+    }
+  };
 
   return (
     <>
@@ -81,7 +77,7 @@ export const TaskDrawer = () => {
               setTasks([
                 ...tasks,
                 {
-                  createdAt: new Date(),
+                  createdAt: new Date().toLocaleDateString(),
                   description: "",
                   id: nanoid(),
                   state: "PENDING",
@@ -104,7 +100,7 @@ export const TaskDrawer = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          style={getItemStyle(
+                          style={BuildDnDStyles(
                             snapshot.isDragging,
                             provided.draggableProps.style,
                             colors.primary[8],
@@ -115,9 +111,17 @@ export const TaskDrawer = () => {
                             <Grid.Col span={11} pr={0}>
                               <>
                                 <Textarea
-                                  rightSection={<TaskDrawerHeader />}
-                                  value={task.description}
-                                  onChange={() => {}}
+                                  rightSection={
+                                    <TaskItemMenuOptions taskId={task.id} />
+                                  }
+                                  value={
+                                    task.editMode
+                                      ? newTaskDescription
+                                      : task.description
+                                  }
+                                  onChange={(e) =>
+                                    setNewTaskDescription(e.target.value)
+                                  }
                                   styles={{
                                     input: { border: "none", padding: "0 0" },
                                     rightSection: {
@@ -134,18 +138,13 @@ export const TaskDrawer = () => {
                                       color="green"
                                       size="xs"
                                       px={0}
+                                      disabled={
+                                        newTaskDescription === "" ||
+                                        !newTaskDescription
+                                      }
+                                      onClick={onSaveTask}
                                     >
                                       Save
-                                    </Button>
-
-                                    <Button
-                                      variant="subtle"
-                                      color="red"
-                                      size="xs"
-                                      pl={"xs"}
-                                      pr={0}
-                                    >
-                                      Remove
                                     </Button>
 
                                     <Button
@@ -201,6 +200,6 @@ export const TaskDrawer = () => {
 };
 
 // TODO:
-// 0. Arreglar estilos de botones (paddings)
-// 1. Apply the onClick for saving (changing editMode to false) and removing
-// 2. Create servicies and logic for AI assi
+// 1. Apply the onClick for saving (changing editMode to false) and removing - DONE
+// 2. Create servicies and logic for AI assi - NEXT
+// 3. Refactor component
