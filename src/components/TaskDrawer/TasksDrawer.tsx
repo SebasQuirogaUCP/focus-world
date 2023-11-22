@@ -112,7 +112,7 @@ export const TaskDrawer = () => {
                               <>
                                 <Textarea
                                   rightSection={
-                                    <TaskItemMenuOptions taskId={task.id} />
+                                    <TaskItemMenuOptions task={task} />
                                   }
                                   value={
                                     task.editMode

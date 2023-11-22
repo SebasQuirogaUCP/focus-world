@@ -1,18 +1,31 @@
+import { ITaskState } from "@/models/tasks/ITaskState";
+import { AITaskAssitance } from "@/services/tasks/AITaskAssistance";
 import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
+import { IsError } from "@/utils/IsError";
 import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
 
 type Props = {
-  taskId: string;
+  task: ITaskState;
 };
 
-export const TaskItemMenuOptions = ({ taskId }: Props) => {
+export const TaskItemMenuOptions = ({ task }: Props) => {
   const [opened, { open, close }] = useDisclosure();
   const { colors } = useMantineTheme();
 
   const onRemoveTask = (taskId: string) => {
     RemoveTaskInStore(taskId);
+  };
+
+  const askChatGPT = async () => {
+    const chatGPTResponse = await AITaskAssitance(task.description);
+
+    if (IsError(chatGPTResponse) || chatGPTResponse === undefined) {
+      // TODO: Alert
+      return;
+    }
+    console.log("chatGPTResponse 🤓: ", chatGPTResponse);
   };
 
   return (
@@ -64,7 +77,7 @@ export const TaskItemMenuOptions = ({ taskId }: Props) => {
               🙀
             </span>
           }
-          onClick={() => onRemoveTask(taskId)}
+          onClick={() => onRemoveTask(task.id)}
         >
           Remove Task
         </Menu.Item>
@@ -72,6 +85,8 @@ export const TaskItemMenuOptions = ({ taskId }: Props) => {
         <Menu.Divider />
 
         <Menu.Item
+          disabled={task.editMode}
+          onClick={askChatGPT}
           icon={
             <span
               role="img"
