@@ -1,4 +1,4 @@
-export type TaskState = {
+export type ITaskState = {
   id: string;
   description: string;
   createdAt: string;

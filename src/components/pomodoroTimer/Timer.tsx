@@ -1,13 +1,16 @@
 // import { CircularProgressbar } from 'react-circular-progressbar';
-import { ComputeCircularProgress } from "@/services/ComputeCircularProgress";
-import { SetTimerActivePreferences } from "@/services/SetTimerPreferences";
+import { ComputeCircularProgress } from "@/services/timer/ComputeCircularProgress";
+import { SetTimerActivePreferences } from "@/services/timer/SetTimerPreferences";
 import { useAppStore } from "@/store/useAppStore";
 import { Button, Center, Group, useMantineTheme } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { hoursToMsConst, minutesToMsConst } from "../data/TimeConstants";
+import {
+  hoursToMsConst,
+  minutesToMsConst,
+} from "../../services/timer/TimeConstants";
 import { ConvertMsToHMS } from "../utils/ConvertMsToHMS";
 
 export const Timer = () => {

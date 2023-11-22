@@ -1,4 +1,4 @@
-import { RemoveTaskInStore } from "@/services/RemoveTaskInStore";
+import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
 import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";

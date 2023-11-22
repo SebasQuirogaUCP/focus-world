@@ -1,4 +1,4 @@
-import { TimerActiveState } from "@/components/data/TimerActiveState";
+import { ITimerActiveState } from "@/models/timer/ITimerActiveState";
 import { WithStoreState } from "@/store/useAppStore";
 
 export const SetTimerGlobalPreferences = ({
@@ -6,7 +6,7 @@ export const SetTimerGlobalPreferences = ({
   breakTime,
   hours,
   minutes,
-}: TimerActiveState) => {
+}: ITimerActiveState) => {
   WithStoreState((state, setState) => {
     setState({
       active,
@@ -19,7 +19,7 @@ export const SetTimerGlobalPreferences = ({
 
 export const SetTimerActivePreferences = ({
   active,
-}: Pick<TimerActiveState, "active">) => {
+}: Pick<ITimerActiveState, "active">) => {
   WithStoreState((state, setState) => {
     setState({
       active,

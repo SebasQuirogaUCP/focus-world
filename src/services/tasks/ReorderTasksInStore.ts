@@ -1,8 +1,8 @@
-import { TaskState } from "@/components/data/TaskState";
+import { ITaskState } from "@/models/tasks/ITaskState";
 import { WithStoreState } from "@/store/useAppStore";
 
 export const ReorderTasksInStore = (
-  list: TaskState[],
+  list: ITaskState[],
   startIndex: number,
   endIndex: number
 ) => {

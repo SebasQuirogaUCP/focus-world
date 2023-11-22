@@ -1,4 +1,5 @@
-import { AddTaskInStore } from "@/services/AddTaskInStore";
+import { ITaskState } from "@/models/tasks/ITaskState";
+import { AddTaskInStore } from "@/services/tasks/AddTaskInStore";
 import { useAppStore } from "@/store/useAppStore";
 import {
   ActionIcon,
@@ -17,7 +18,6 @@ import { IconHandGrab, IconListCheck, IconWand } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { TaskState } from "../data/TaskState";
 import { BuildDnDStyles } from "../utils/BuildDnDStyles";
 import { TaskItemMenuOptions } from "./TaskItemMenuOptions";
 
@@ -28,7 +28,7 @@ export const TaskDrawer = () => {
 
   const existingTasks = useAppStore((s) => s.tasks);
 
-  const [tasks, setTasks] = useState<TaskState[]>(existingTasks);
+  const [tasks, setTasks] = useState<ITaskState[]>(existingTasks);
 
   const [newTaskDescription, setNewTaskDescription] = useState<string>();
 
@@ -38,7 +38,7 @@ export const TaskDrawer = () => {
 
   const onSaveTask = () => {
     if (newTaskDescription) {
-      const newTask: TaskState = {
+      const newTask: ITaskState = {
         createdAt: new Date().toLocaleDateString(),
         description: newTaskDescription,
         editMode: false,
@@ -92,7 +92,7 @@ export const TaskDrawer = () => {
           <Droppable droppableId="droppable" direction="vertical">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {tasks.map((task: TaskState, index: number) => (
+                {tasks.map((task: ITaskState, index: number) => (
                   <Draggable key={task.id} draggableId={task.id} index={index}>
                     {(provided, snapshot) => {
                       return (

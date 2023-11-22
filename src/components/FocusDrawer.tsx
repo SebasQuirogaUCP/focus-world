@@ -1,4 +1,4 @@
-import { SetTimerGlobalPreferences } from "@/services/SetTimerPreferences";
+import { SetTimerGlobalPreferences } from "@/services/timer/SetTimerPreferences";
 import { useAppStore } from "@/store/useAppStore";
 import {
   ActionIcon,

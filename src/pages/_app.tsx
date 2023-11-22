@@ -1,4 +1,4 @@
-import { ReorderTasksInStore } from "@/services/ReorderTasksInStore";
+import { ReorderTasksInStore } from "@/services/tasks/ReorderTasksInStore";
 import { useAppStore } from "@/store/useAppStore";
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";

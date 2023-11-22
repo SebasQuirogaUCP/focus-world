@@ -1,7 +1,7 @@
-import { TaskState } from "@/components/data/TaskState";
+import { ITaskState } from "@/models/tasks/ITaskState";
 import { StateCreator } from "zustand";
 
-export type TaskStoreState = { tasks: TaskState[] };
+export type TaskStoreState = { tasks: ITaskState[] };
 
 export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
   tasks: [

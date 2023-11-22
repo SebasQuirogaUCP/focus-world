@@ -1,7 +1,7 @@
-import { TimerActiveState } from "@/components/data/TimerActiveState";
+import { ITimerActiveState } from "@/models/timer/ITimerActiveState";
 import { StateCreator } from "zustand";
 
-export type TimerStoreState = TimerActiveState;
+export type TimerStoreState = ITimerActiveState;
 
 export const TimerStore: StateCreator<TimerStoreState> = (set) => ({
   active: false,
