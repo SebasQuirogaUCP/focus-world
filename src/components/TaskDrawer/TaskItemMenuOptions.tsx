@@ -19,13 +19,26 @@ export const TaskItemMenuOptions = ({ task }: Props) => {
   };
 
   const askChatGPT = async () => {
-    const chatGPTResponse = await AITaskAssitance(task.description);
+    const chatGPTResponse = await AITaskAssitance<
+      Array<string> | string | undefined
+    >(task.description);
 
     if (IsError(chatGPTResponse) || chatGPTResponse === undefined) {
       // TODO: Alert
       return;
     }
-    console.log("chatGPTResponse 🤓: ", chatGPTResponse);
+
+    if (typeof chatGPTResponse === "string") {
+      console.info("Providing more information please: ", chatGPTResponse);
+    }
+
+    if (typeof chatGPTResponse === undefined) {
+      console.info("Providing more information please: ");
+    }
+
+    if (chatGPTResponse.length > 0) {
+      console.info("Eureka", chatGPTResponse);
+    }
   };
 
   return (
