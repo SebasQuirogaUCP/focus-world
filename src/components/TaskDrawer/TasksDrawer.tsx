@@ -36,6 +36,8 @@ export const TaskDrawer = () => {
 
   const [newTaskDescription, setNewTaskDescription] = useState<string>();
 
+  const [isTaskItemCreation, setIsTaskItemCreation] = useState<boolean>(false);
+
   useEffect(() => {
     setTasks(existingTasks);
   }, [existingTasks]);
@@ -53,6 +55,7 @@ export const TaskDrawer = () => {
       };
       AddTaskInStore(newTask);
       setNewTaskDescription(undefined);
+      setIsTaskItemCreation(false);
       return;
     }
   };
@@ -62,9 +65,11 @@ export const TaskDrawer = () => {
     UpdateTaskItem(updatedTaskItem);
     EditTaskItem(updatedTaskItem.id, false);
     setNewTaskDescription(undefined);
+    setIsTaskItemCreation(false);
   };
 
   const onEditTaskItem = (taskId: string) => {
+    setIsTaskItemCreation(true);
     EditTaskItem(taskId, true);
   };
 
@@ -97,12 +102,14 @@ export const TaskDrawer = () => {
       >
         <Stack>
           <Button
+            disabled={isTaskItemCreation}
             fullWidth
             variant="outline"
             size="xs"
             mb={"md"}
             color="primary"
-            onClick={() =>
+            onClick={() => {
+              setIsTaskItemCreation(true);
               setTasks([
                 ...tasks,
                 {
@@ -113,8 +120,8 @@ export const TaskDrawer = () => {
                   editMode: true,
                   initializing: true,
                 },
-              ])
-            }
+              ]);
+            }}
           >
             Create Task
           </Button>
