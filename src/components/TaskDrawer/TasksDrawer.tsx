@@ -1,5 +1,8 @@
 import { ITaskState } from "@/models/tasks/ITaskState";
 import { AddTaskInStore } from "@/services/tasks/AddTaskInStore";
+import { EditTaskItem } from "@/services/tasks/EditTaskItem";
+import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
+import { UpdateTaskItem } from "@/services/tasks/UpdateTaskItem";
 import { useAppStore } from "@/store/useAppStore";
 import {
   ActionIcon,
@@ -50,6 +53,25 @@ export const TaskDrawer = () => {
       setNewTaskDescription("");
       return;
     }
+  };
+
+  const onUpdateTask = (updatedTaskItem: ITaskState) => {
+    UpdateTaskItem(updatedTaskItem);
+    EditTaskItem(updatedTaskItem.id, false);
+    setNewTaskDescription(undefined);
+  };
+
+  const onEditTaskItem = (taskId: string) => {
+    EditTaskItem(taskId, true);
+  };
+
+  const onRemoveTask = (taskId: string) => {
+    RemoveTaskInStore(taskId);
+  };
+
+  const onAIResponse = (aiResponse: string) => {
+    console.info(aiResponse);
+    setNewTaskDescription(aiResponse);
   };
 
   return (
@@ -111,8 +133,14 @@ export const TaskDrawer = () => {
                             <Grid.Col span={11} pr={0}>
                               <>
                                 <Textarea
+                                  disabled={!task.editMode}
                                   rightSection={
-                                    <TaskItemMenuOptions task={task} />
+                                    <TaskItemMenuOptions
+                                      task={task}
+                                      onAIResponse={onAIResponse}
+                                      onEditTaskItem={onEditTaskItem}
+                                      onRemoveTask={onRemoveTask}
+                                    />
                                   }
                                   value={
                                     task.editMode
@@ -123,7 +151,14 @@ export const TaskDrawer = () => {
                                     setNewTaskDescription(e.target.value)
                                   }
                                   styles={{
-                                    input: { border: "none", padding: "0 0" },
+                                    input: {
+                                      border: "none",
+                                      padding: "0 0",
+                                      "&[data-disabled]": {
+                                        backgroundColor: "transparent",
+                                        color: "black",
+                                      },
+                                    },
                                     rightSection: {
                                       display: "flex",
                                       justifyContent: "end",
@@ -142,7 +177,15 @@ export const TaskDrawer = () => {
                                         newTaskDescription === "" ||
                                         !newTaskDescription
                                       }
-                                      onClick={onSaveTask}
+                                      onClick={() => {
+                                        task.editMode
+                                          ? onUpdateTask({
+                                              ...task,
+                                              description:
+                                                newTaskDescription ?? "",
+                                            })
+                                          : onSaveTask();
+                                      }}
                                     >
                                       Save
                                     </Button>

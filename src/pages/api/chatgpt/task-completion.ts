@@ -1,4 +1,4 @@
-import { ChatGPTMessages } from "@/services/chatGPT/ChatGPTMessages";
+import { GPT_TASK_HELP_SYSTEM_MESSAGE } from "@/services/chatGPT/ChatGPTMessages";
 import { SendChatCompletion } from "@/services/chatGPT/SendChatCompletion";
 import { HttpError } from "@/services/http/HttpError";
 import { HttpSuccess } from "@/services/http/HttpSuccess";
@@ -20,7 +20,7 @@ export default async function handler(
   }
 
   const chatGPTResponse = await SendChatCompletion({
-    systemMessage: ChatGPTMessages.GPT_TASK_HELP_SYSTEM_MESSAGE,
+    systemMessage: GPT_TASK_HELP_SYSTEM_MESSAGE,
     userMessage,
   });
 

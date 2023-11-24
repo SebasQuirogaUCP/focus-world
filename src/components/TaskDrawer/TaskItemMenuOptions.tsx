@@ -1,44 +1,42 @@
 import { ITaskState } from "@/models/tasks/ITaskState";
+import { ERROR_MESSAGE } from "@/services/notifications/NotificationMessages";
 import { AITaskAssitance } from "@/services/tasks/AITaskAssistance";
-import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
 import { IsError } from "@/utils/IsError";
 import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
+import { NotificationError } from "../notifications/NotificationError";
+import { NotificationSuccess } from "../notifications/NotificationSuccess";
 
 type Props = {
   task: ITaskState;
+  onAIResponse: (aiResponse: string) => void;
+  onEditTaskItem: (taskId: string) => void;
+  onRemoveTask: (taskId: string) => void;
 };
 
-export const TaskItemMenuOptions = ({ task }: Props) => {
+export const TaskItemMenuOptions = ({
+  task,
+  onAIResponse,
+  onEditTaskItem,
+  onRemoveTask,
+}: Props) => {
   const [opened, { open, close }] = useDisclosure();
   const { colors } = useMantineTheme();
 
-  const onRemoveTask = (taskId: string) => {
-    RemoveTaskInStore(taskId);
-  };
-
   const askChatGPT = async () => {
-    const chatGPTResponse = await AITaskAssitance<
-      Array<string> | string | undefined
-    >(task.description);
+    task.editMode = true;
+
+    const chatGPTResponse = await AITaskAssitance<string | undefined>(
+      task.description
+    );
 
     if (IsError(chatGPTResponse) || chatGPTResponse === undefined) {
-      // TODO: Alert
-      return;
+      return NotificationError(ERROR_MESSAGE);
     }
 
-    if (typeof chatGPTResponse === "string") {
-      console.info("Providing more information please: ", chatGPTResponse);
-    }
-
-    if (typeof chatGPTResponse === undefined) {
-      console.info("Providing more information please: ");
-    }
-
-    if (chatGPTResponse.length > 0) {
-      console.info("Eureka", chatGPTResponse);
-    }
+    onAIResponse(chatGPTResponse);
+    return NotificationSuccess("Hey, this is working");
   };
 
   return (
@@ -66,6 +64,21 @@ export const TaskItemMenuOptions = ({ task }: Props) => {
       </Menu.Target>
 
       <Menu.Dropdown>
+        <Menu.Item
+          onClick={() => onEditTaskItem(task.id)}
+          icon={
+            <span
+              role="img"
+              aria-label="sheep"
+              style={{ padding: "0px 0px 5px 3px", fontSize: "18px" }}
+            >
+              ✍🏼
+            </span>
+          }
+        >
+          Edit Task
+        </Menu.Item>
+
         <Menu.Item
           icon={
             <span
