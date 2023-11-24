@@ -263,6 +263,4 @@ export const TaskDrawer = () => {
 };
 
 // TODO:
-// 1. Apply the onClick for saving (changing editMode to false) and removing - DONE
-// 2. Create servicies and logic for AI assi - NEXT
 // 3. Refactor component
