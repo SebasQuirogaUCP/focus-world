@@ -264,3 +264,4 @@ export const TaskDrawer = () => {
 
 // TODO:
 // 3. Refactor component
+// 4. Move the TaskDrawer to the main screen (renaming components and AFTER refactoring)
