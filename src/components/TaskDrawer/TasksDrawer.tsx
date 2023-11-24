@@ -1,5 +1,6 @@
 import { ITaskState } from "@/models/tasks/ITaskState";
 import { AddTaskInStore } from "@/services/tasks/AddTaskInStore";
+import { CompleteTaskItem } from "@/services/tasks/CompleteTaskItem";
 import { EditTaskItem } from "@/services/tasks/EditTaskItem";
 import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
 import { UpdateTaskItem } from "@/services/tasks/UpdateTaskItem";
@@ -75,6 +76,10 @@ export const TaskDrawer = () => {
     setNewTaskDescription(aiResponse);
   };
 
+  const onCompleteTask = (taskId: string) => {
+    CompleteTaskItem(taskId);
+  };
+
   return (
     <>
       <Drawer
@@ -142,6 +147,7 @@ export const TaskDrawer = () => {
                                       onAIResponse={onAIResponse}
                                       onEditTaskItem={onEditTaskItem}
                                       onRemoveTask={onRemoveTask}
+                                      onCompleteTask={onCompleteTask}
                                     />
                                   }
                                   value={

@@ -13,6 +13,7 @@ type Props = {
   onAIResponse: (aiResponse: string) => void;
   onEditTaskItem: (taskId: string) => void;
   onRemoveTask: (taskId: string) => void;
+  onCompleteTask: (taskId: string) => void;
 };
 
 export const TaskItemMenuOptions = ({
@@ -20,6 +21,7 @@ export const TaskItemMenuOptions = ({
   onAIResponse,
   onEditTaskItem,
   onRemoveTask,
+  onCompleteTask,
 }: Props) => {
   const [opened, { open, close }] = useDisclosure();
   const { colors } = useMantineTheme();
@@ -80,6 +82,7 @@ export const TaskItemMenuOptions = ({
         </Menu.Item>
 
         <Menu.Item
+          onClick={() => onCompleteTask(task.id)}
           icon={
             <span
               role="img"
