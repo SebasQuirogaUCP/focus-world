@@ -5,4 +5,5 @@ export type ITaskState = {
   state: "PROGRESS" | "COMPLETED" | "PENDING";
   aiGenerated?: boolean;
   editMode: boolean;
+  initializing: boolean;
 };

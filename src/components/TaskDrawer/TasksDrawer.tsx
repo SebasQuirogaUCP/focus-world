@@ -48,9 +48,10 @@ export const TaskDrawer = () => {
         id: nanoid(),
         state: "PENDING",
         aiGenerated: false,
+        initializing: false,
       };
       AddTaskInStore(newTask);
-      setNewTaskDescription("");
+      setNewTaskDescription(undefined);
       return;
     }
   };
@@ -104,6 +105,7 @@ export const TaskDrawer = () => {
                   id: nanoid(),
                   state: "PENDING",
                   editMode: true,
+                  initializing: true,
                 },
               ])
             }
@@ -143,7 +145,7 @@ export const TaskDrawer = () => {
                                     />
                                   }
                                   value={
-                                    task.editMode
+                                    task.editMode && newTaskDescription
                                       ? newTaskDescription
                                       : task.description
                                   }
@@ -178,16 +180,16 @@ export const TaskDrawer = () => {
                                         !newTaskDescription
                                       }
                                       onClick={() => {
-                                        task.editMode
-                                          ? onUpdateTask({
+                                        task.editMode && task.initializing
+                                          ? onSaveTask()
+                                          : onUpdateTask({
                                               ...task,
                                               description:
                                                 newTaskDescription ?? "",
-                                            })
-                                          : onSaveTask();
+                                            });
                                       }}
                                     >
-                                      Save
+                                      {task.initializing ? "Save" : "Update"}
                                     </Button>
 
                                     <Button

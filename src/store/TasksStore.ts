@@ -11,6 +11,7 @@ export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
       description: "Testing DnD",
       state: "PROGRESS",
       editMode: false,
+      initializing: false,
     },
     {
       createdAt: new Date().toLocaleDateString(),
@@ -18,6 +19,7 @@ export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
       description: "Opening Teams",
       state: "PROGRESS",
       editMode: false,
+      initializing: false,
     },
     {
       createdAt: new Date().toLocaleDateString(),
@@ -25,6 +27,7 @@ export const TasksStore: StateCreator<TaskStoreState> = (set) => ({
       description: "Just for fun",
       state: "PROGRESS",
       editMode: false,
+      initializing: false,
     },
   ],
 });
