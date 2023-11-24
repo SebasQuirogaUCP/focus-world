@@ -81,20 +81,22 @@ export const TaskItemMenuOptions = ({
           Edit Task
         </Menu.Item>
 
-        <Menu.Item
-          onClick={() => onCompleteTask(task.id)}
-          icon={
-            <span
-              role="img"
-              aria-label="sheep"
-              style={{ padding: "0px 0px 5px 3px", fontSize: "18px" }}
-            >
-              😎
-            </span>
-          }
-        >
-          Task Completed
-        </Menu.Item>
+        {task.state !== "COMPLETED" && (
+          <Menu.Item
+            onClick={() => onCompleteTask(task.id)}
+            icon={
+              <span
+                role="img"
+                aria-label="sheep"
+                style={{ padding: "0px 0px 5px 3px", fontSize: "18px" }}
+              >
+                😎
+              </span>
+            }
+          >
+            Task Completed
+          </Menu.Item>
+        )}
 
         <Menu.Item
           icon={

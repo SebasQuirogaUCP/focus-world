@@ -58,6 +58,7 @@ export const TaskDrawer = () => {
   };
 
   const onUpdateTask = (updatedTaskItem: ITaskState) => {
+    updatedTaskItem.state = "PROGRESS";
     UpdateTaskItem(updatedTaskItem);
     EditTaskItem(updatedTaskItem.id, false);
     setNewTaskDescription(undefined);
@@ -166,6 +167,10 @@ export const TaskDrawer = () => {
                                         backgroundColor: "transparent",
                                         color: "black",
                                       },
+                                      textDecoration:
+                                        task.state === "COMPLETED"
+                                          ? "line-through"
+                                          : undefined,
                                     },
                                     rightSection: {
                                       display: "flex",
