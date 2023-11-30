@@ -10,20 +10,17 @@ import {
   Button,
   Card,
   Drawer,
-  Grid,
-  Group,
   Stack,
-  Textarea,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconHandGrab, IconListCheck, IconWand } from "@tabler/icons-react";
+import { IconListCheck } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { BuildDnDStyles } from "../utils/BuildDnDStyles";
-import { TaskItemMenuOptions } from "./TaskItemMenuOptions";
+import { TaskDrawerItem } from "./TaskDrawerItem";
 
 export const TaskDrawer = () => {
   const { colors } = useMantineTheme();
@@ -78,12 +75,16 @@ export const TaskDrawer = () => {
   };
 
   const onAIResponse = (aiResponse: string) => {
-    console.info(aiResponse);
     setNewTaskDescription(aiResponse);
   };
 
   const onCompleteTask = (taskId: string) => {
     CompleteTaskItem(taskId);
+  };
+
+  const onChangeTaskDescription = (taskDescription: string | undefined) => {
+    if (!taskDescription || taskDescription === "") return;
+    setNewTaskDescription(taskDescription);
   };
 
   return (
@@ -144,103 +145,17 @@ export const TaskDrawer = () => {
                             task.editMode
                           )}
                         >
-                          <Grid>
-                            <Grid.Col span={11} pr={0}>
-                              <>
-                                <Textarea
-                                  disabled={!task.editMode}
-                                  rightSection={
-                                    <TaskItemMenuOptions
-                                      task={task}
-                                      onAIResponse={onAIResponse}
-                                      onEditTaskItem={onEditTaskItem}
-                                      onRemoveTask={onRemoveTask}
-                                      onCompleteTask={onCompleteTask}
-                                    />
-                                  }
-                                  value={
-                                    task.editMode && newTaskDescription
-                                      ? newTaskDescription
-                                      : task.description
-                                  }
-                                  onChange={(e) =>
-                                    setNewTaskDescription(e.target.value)
-                                  }
-                                  styles={{
-                                    input: {
-                                      border: "none",
-                                      padding: "0 0",
-                                      "&[data-disabled]": {
-                                        backgroundColor: "transparent",
-                                        color: "black",
-                                      },
-                                      textDecoration:
-                                        task.state === "COMPLETED"
-                                          ? "line-through"
-                                          : undefined,
-                                    },
-                                    rightSection: {
-                                      display: "flex",
-                                      justifyContent: "end",
-                                      alignItems: "flex-start",
-                                    },
-                                  }}
-                                />
-                                {task.editMode && (
-                                  <Group spacing={0}>
-                                    <Button
-                                      variant="subtle"
-                                      color="green"
-                                      size="xs"
-                                      px={0}
-                                      disabled={
-                                        newTaskDescription === "" ||
-                                        !newTaskDescription
-                                      }
-                                      onClick={() => {
-                                        task.editMode && task.initializing
-                                          ? onSaveTask()
-                                          : onUpdateTask({
-                                              ...task,
-                                              description:
-                                                newTaskDescription ?? "",
-                                            });
-                                      }}
-                                    >
-                                      {task.initializing ? "Save" : "Update"}
-                                    </Button>
-
-                                    <Button
-                                      variant="subtle"
-                                      color="dark"
-                                      size="xs"
-                                      px={"xs"}
-                                    >
-                                      <Tooltip
-                                        label={"AI Assistant"}
-                                        styles={{ tooltip: { fontSize: 10 } }}
-                                        position="bottom"
-                                      >
-                                        <IconWand
-                                          stroke={1}
-                                          color="black"
-                                          size={20}
-                                        />
-                                      </Tooltip>
-                                    </Button>
-                                  </Group>
-                                )}
-                              </>
-                            </Grid.Col>
-
-                            <Grid.Col span={1} pl={0}>
-                              <ActionIcon>
-                                <IconHandGrab
-                                  style={{ width: "70%", stroke: "1.5" }}
-                                />
-                              </ActionIcon>
-                            </Grid.Col>
-                          </Grid>
+                          <TaskDrawerItem
+                            task={task}
+                            onAIResponse={onAIResponse}
+                            onEditTaskItem={onEditTaskItem}
+                            onRemoveTask={onRemoveTask}
+                            onSaveTask={onSaveTask}
+                            onUpdateTask={onUpdateTask}
+                            onCompleteTask={onCompleteTask}
+                            onChangeTaskDescription={onChangeTaskDescription}
+                            newTaskDescription={newTaskDescription}
+                          />
                         </Card>
                       );
                     }}
@@ -263,5 +178,4 @@ export const TaskDrawer = () => {
 };
 
 // TODO:
-// 3. Refactor component
-// 4. Move the TaskDrawer to the main screen (renaming components and AFTER refactoring)
+// 1. Solve bugs hint => It seems like when editing or creating a new item, the state variable is messed up.

@@ -6,7 +6,6 @@ import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconDots } from "@tabler/icons-react";
 import { NotificationError } from "../notifications/NotificationError";
-import { NotificationSuccess } from "../notifications/NotificationSuccess";
 
 type Props = {
   task: ITaskState;
@@ -37,8 +36,7 @@ export const TaskItemMenuOptions = ({
       return NotificationError(ERROR_MESSAGE);
     }
 
-    onAIResponse(chatGPTResponse);
-    return NotificationSuccess("Hey, this is working");
+    return onAIResponse(chatGPTResponse);
   };
 
   return (
