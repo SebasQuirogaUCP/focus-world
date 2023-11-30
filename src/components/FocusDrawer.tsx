@@ -14,12 +14,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconFocus2 } from "@tabler/icons-react";
 import { useState } from "react";
-import { useStylesFocusDrawer } from "./stylesHooks/useStylesFocusDrawer";
+import { useStyles } from "./hooks/useStyles";
 
 export const FocusDrawer = () => {
   const { colors } = useMantineTheme();
 
-  const { classes } = useStylesFocusDrawer();
+  const { classes } = useStyles();
 
   const [opened, { open, close }] = useDisclosure(false);
 

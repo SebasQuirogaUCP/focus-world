@@ -11,10 +11,10 @@ import {
 } from "@tabler/icons-react";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
-import { useStylesHeader } from "./stylesHooks/useStylesHeader";
+import { useStyles } from "./hooks/useStyles";
 
 export function HeaderMenu() {
-  const { classes, theme, cx } = useStylesHeader();
+  const { classes, theme, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const session = useSession();

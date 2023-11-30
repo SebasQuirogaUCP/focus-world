@@ -9,7 +9,7 @@ import {
   Tooltip,
   UnstyledButton,
   rem,
-  useMantineTheme
+  useMantineTheme,
 } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 import {
@@ -21,7 +21,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { useStylesSideNavBar } from "./stylesHooks/useStylesSideNavBar";
+import { useStyles } from "./hooks/useStyles";
 
 const links = [
   { icon: IconBulb, label: "Activity", notifications: 3 },
@@ -46,7 +46,7 @@ type Props = {
 };
 
 export const SideNavBar = ({ open, toggleSideNavBar }: Props) => {
-  const { classes } = useStylesSideNavBar();
+  const { classes } = useStyles();
   const { height } = useViewportSize();
   const { colors } = useMantineTheme();
 

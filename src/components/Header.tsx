@@ -15,14 +15,14 @@ import { FocusDrawer } from "./FocusDrawer";
 import { HeaderMenu } from "./HeaderMenu";
 import { CustomLogin } from "./Login";
 import { TaskDrawer } from "./TaskDrawer/TasksDrawer";
-import { useStylesHeader } from "./stylesHooks/useStylesHeader";
+import { useStyles } from "./hooks/useStyles";
 
 type Props = {
   toggleSideNavBar: () => void;
 };
 
 export function Header({ toggleSideNavBar }: Props) {
-  const { classes, cx } = useStylesHeader();
+  const { classes, cx } = useStyles();
   const [opened, { open, close }] = useDisclosure(false);
 
   const session = useSession();
