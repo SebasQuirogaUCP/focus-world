@@ -10,6 +10,7 @@ type Props = {
   onEditTaskItem: (taskId: string) => void;
   onRemoveTask: (taskId: string) => void;
   onSaveTask: () => void;
+  onCancelTask: (task: ITaskState) => void;
   onUpdateTask: (updatedTaskState: ITaskState) => void;
   onCompleteTask: (taskId: string) => void;
   onChangeTaskDescription: (taskDescription: string | undefined) => void;
@@ -22,11 +23,24 @@ export const TaskDrawerItem = ({
   onAIResponse,
   onCompleteTask,
   onSaveTask,
+  onCancelTask,
   onUpdateTask,
   onEditTaskItem,
   onRemoveTask,
   onChangeTaskDescription,
 }: Props) => {
+  const onSaveOrUpdate = () => {
+    task.editMode && task.initializing
+      ? onSaveTask()
+      : onUpdateTask({
+          ...task,
+          description: newTaskDescription ?? "",
+        });
+  };
+
+  const cancelTask = () => {
+    onCancelTask(task);
+  };
   return (
     <Grid>
       <Grid.Col span={11} pr={0}>
@@ -69,14 +83,8 @@ export const TaskDrawerItem = ({
           <Group spacing={0}>
             <TaskDrawerEditButtons
               disabled={newTaskDescription === "" || !newTaskDescription}
-              onClick={() => {
-                task.editMode && task.initializing
-                  ? onSaveTask()
-                  : onUpdateTask({
-                      ...task,
-                      description: newTaskDescription ?? "",
-                    });
-              }}
+              onSaveOrUpdate={onSaveOrUpdate}
+              onCancel={cancelTask}
               initializingTask={task.initializing}
             />
           </Group>

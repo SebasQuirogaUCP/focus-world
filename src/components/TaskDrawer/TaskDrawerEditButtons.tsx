@@ -3,13 +3,15 @@ import { IconWand } from "@tabler/icons-react";
 
 type Props = {
   disabled: boolean;
-  onClick: () => void;
+  onSaveOrUpdate: () => void;
+  onCancel: () => void;
   initializingTask: boolean;
 };
 
 export const TaskDrawerEditButtons = ({
   disabled,
-  onClick,
+  onSaveOrUpdate: onClick,
+  onCancel,
   initializingTask,
 }: Props) => {
   return (
@@ -18,11 +20,14 @@ export const TaskDrawerEditButtons = ({
         variant="subtle"
         color="green"
         size="xs"
-        px={0}
         disabled={disabled}
         onClick={onClick}
       >
         {initializingTask ? "Save" : "Update"}
+      </Button>
+
+      <Button variant="subtle" color="red" size="xs" onClick={onCancel}>
+        Cancel
       </Button>
 
       <Button variant="subtle" color="dark" size="xs" px={"xs"}>

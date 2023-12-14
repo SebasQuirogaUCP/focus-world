@@ -3,6 +3,7 @@ import { AddTaskInStore } from "@/services/tasks/AddTaskInStore";
 import { CompleteTaskItem } from "@/services/tasks/CompleteTaskItem";
 import { EditTaskItem } from "@/services/tasks/EditTaskItem";
 import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
+import { TaskExistInStore } from "@/services/tasks/TaskExistInStore";
 import { UpdateTaskItem } from "@/services/tasks/UpdateTaskItem";
 import { useAppStore } from "@/store/useAppStore";
 import {
@@ -61,6 +62,20 @@ export const TaskDrawer = () => {
     updatedTaskItem.state = "PROGRESS";
     UpdateTaskItem(updatedTaskItem);
     EditTaskItem(updatedTaskItem.id, false);
+    setNewTaskDescription(undefined);
+    setIsTaskItemCreation(false);
+  };
+
+  const onCancelTask = (task: ITaskState) => {
+    const isNewTask = TaskExistInStore(task.id);
+
+    if (isNewTask) {
+      const newTasks = tasks.filter((t) => t.id !== task.id);
+      setTasks(newTasks);
+      return;
+    }
+
+    EditTaskItem(task.id, false);
     setNewTaskDescription(undefined);
     setIsTaskItemCreation(false);
   };
@@ -152,6 +167,7 @@ export const TaskDrawer = () => {
                             onRemoveTask={onRemoveTask}
                             onSaveTask={onSaveTask}
                             onUpdateTask={onUpdateTask}
+                            onCancelTask={onCancelTask}
                             onCompleteTask={onCompleteTask}
                             onChangeTaskDescription={onChangeTaskDescription}
                             newTaskDescription={newTaskDescription}
