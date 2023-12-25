@@ -8,11 +8,9 @@ type Props = {
   task: ITaskState;
   onAIResponse: (aiResponse: string) => void;
   onEditTaskItem: (taskId: string) => void;
-  onRemoveTask: (taskId: string) => void;
   onSaveTask: () => void;
   onCancelTask: (task: ITaskState) => void;
   onUpdateTask: (updatedTaskState: ITaskState) => void;
-  onCompleteTask: (taskId: string) => void;
   onChangeTaskDescription: (taskDescription: string | undefined) => void;
   newTaskDescription: string | undefined;
 };
@@ -21,12 +19,10 @@ export const TaskDrawerItem = ({
   task,
   newTaskDescription,
   onAIResponse,
-  onCompleteTask,
   onSaveTask,
   onCancelTask,
   onUpdateTask,
   onEditTaskItem,
-  onRemoveTask,
   onChangeTaskDescription,
 }: Props) => {
   const onSaveOrUpdate = () => {
@@ -51,8 +47,6 @@ export const TaskDrawerItem = ({
               task={task}
               onAIResponse={onAIResponse}
               onEditTaskItem={onEditTaskItem}
-              onRemoveTask={onRemoveTask}
-              onCompleteTask={onCompleteTask}
             />
           }
           value={

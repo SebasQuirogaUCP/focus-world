@@ -1,8 +1,6 @@
 import { ITaskState } from "@/models/tasks/ITaskState";
 import { AddTaskInStore } from "@/services/tasks/AddTaskInStore";
-import { CompleteTaskItem } from "@/services/tasks/CompleteTaskItem";
 import { EditTaskItem } from "@/services/tasks/EditTaskItem";
-import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
 import { TaskExistInStore } from "@/services/tasks/TaskExistInStore";
 import { UpdateTaskItem } from "@/services/tasks/UpdateTaskItem";
 import { useAppStore } from "@/store/useAppStore";
@@ -85,16 +83,8 @@ export const TaskDrawer = () => {
     EditTaskItem(taskId, true);
   };
 
-  const onRemoveTask = (taskId: string) => {
-    RemoveTaskInStore(taskId);
-  };
-
   const onAIResponse = (aiResponse: string) => {
     setNewTaskDescription(aiResponse);
-  };
-
-  const onCompleteTask = (taskId: string) => {
-    CompleteTaskItem(taskId);
   };
 
   const onChangeTaskDescription = (taskDescription: string | undefined) => {
@@ -164,11 +154,9 @@ export const TaskDrawer = () => {
                             task={task}
                             onAIResponse={onAIResponse}
                             onEditTaskItem={onEditTaskItem}
-                            onRemoveTask={onRemoveTask}
                             onSaveTask={onSaveTask}
                             onUpdateTask={onUpdateTask}
                             onCancelTask={onCancelTask}
-                            onCompleteTask={onCompleteTask}
                             onChangeTaskDescription={onChangeTaskDescription}
                             newTaskDescription={newTaskDescription}
                           />

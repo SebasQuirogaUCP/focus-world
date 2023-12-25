@@ -1,6 +1,8 @@
 import { ITaskState } from "@/models/tasks/ITaskState";
 import { ERROR_MESSAGE } from "@/services/notifications/NotificationMessages";
 import { AITaskAssitance } from "@/services/tasks/AITaskAssistance";
+import { CompleteTaskItem } from "@/services/tasks/CompleteTaskItem";
+import { RemoveTaskInStore } from "@/services/tasks/RemoveTaskInStore";
 import { IsError } from "@/utils/IsError";
 import { ActionIcon, Menu, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -11,16 +13,12 @@ type Props = {
   task: ITaskState;
   onAIResponse: (aiResponse: string) => void;
   onEditTaskItem: (taskId: string) => void;
-  onRemoveTask: (taskId: string) => void;
-  onCompleteTask: (taskId: string) => void;
 };
 
 export const TaskItemMenuOptions = ({
   task,
   onAIResponse,
   onEditTaskItem,
-  onRemoveTask,
-  onCompleteTask,
 }: Props) => {
   const [opened, { open, close }] = useDisclosure();
   const { colors } = useMantineTheme();
@@ -81,7 +79,7 @@ export const TaskItemMenuOptions = ({
 
         {task.state !== "COMPLETED" && (
           <Menu.Item
-            onClick={() => onCompleteTask(task.id)}
+            onClick={() => CompleteTaskItem(task.id)}
             icon={
               <span
                 role="img"
@@ -106,7 +104,7 @@ export const TaskItemMenuOptions = ({
               🙀
             </span>
           }
-          onClick={() => onRemoveTask(task.id)}
+          onClick={() => RemoveTaskInStore(task.id)}
         >
           Remove Task
         </Menu.Item>
