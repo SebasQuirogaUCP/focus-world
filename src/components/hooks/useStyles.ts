@@ -195,4 +195,23 @@ export const useStyles = createStyles((theme) => ({
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
     },
   },
+
+  landingHeader: {
+    height: rem(56),
+    marginBottom: rem(120),
+    backgroundColor: theme.colors.primary[0],
+  },
+
+  landingInner: {
+    height: rem(56),
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  landingLink: {
+    display: "block",
+    lineHeight: 1,
+    textDecoration: "none",
+  },
 }));

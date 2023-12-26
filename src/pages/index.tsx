@@ -1,6 +1,5 @@
-import { Header } from "@/components/Header";
-import { SideNavBar } from "@/components/SideNavBar";
-import { Timer } from "@/components/pomodoroTimer/Timer";
+import { LandingPageHeader } from "@/components/landingPage/LandingPageHeader";
+import { MainLandingPage } from "@/components/landingPage/MainLandingPage";
 import { AppShell, MantineProvider } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 
@@ -44,13 +43,8 @@ export default function Home() {
     >
       <AppShell
         padding="md"
-        navbar={
-          <SideNavBar
-            open={sideNavBarOpen}
-            toggleSideNavBar={toggleOpenSideNavBar}
-          />
-        }
-        header={<Header toggleSideNavBar={toggleOpenSideNavBar} />}
+        // header={<Header toggleSideNavBar={toggleOpenSideNavBar} />}
+        header={<LandingPageHeader />}
         styles={(theme) => ({
           main: {
             backgroundColor:
@@ -60,7 +54,8 @@ export default function Home() {
           },
         })}
       >
-        <Timer />
+        <MainLandingPage />
+        {/* <Timer /> */}
       </AppShell>
     </MantineProvider>
   );
