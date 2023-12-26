@@ -21,7 +21,7 @@ export const LandingPageHeader = () => {
 
   return (
     <div className={classes.headerBackground}>
-      <Grid mt={"sm"}>
+      <Grid>
         <Grid.Col span={8}>
           <Container>
             <Group position="left" grow>
