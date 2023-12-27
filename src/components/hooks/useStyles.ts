@@ -15,7 +15,6 @@ export const useStyles = createStyles((theme) => ({
 
   headerBackground: {
     backgroundColor: "white",
-    padding: "12px 0 12px 0",
   },
 
   mainSection: {

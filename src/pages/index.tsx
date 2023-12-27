@@ -1,11 +1,7 @@
-import { LandingPageHeader } from "@/components/landingPage/LandingPageHeader";
-import { MainLandingPage } from "@/components/landingPage/MainLandingPage";
+import { LandingPageMain } from "@/components/landingPage/LandingPageMain";
 import { AppShell, MantineProvider } from "@mantine/core";
-import { useToggle } from "@mantine/hooks";
 
 export default function Home() {
-  const [sideNavBarOpen, toggleOpenSideNavBar] = useToggle([true, true]);
-
   return (
     <MantineProvider
       withGlobalStyles
@@ -44,14 +40,14 @@ export default function Home() {
       <AppShell
         padding="md"
         // header={<Header toggleSideNavBar={toggleOpenSideNavBar} />}
-        header={<LandingPageHeader />}
+        // header={<LandingPageHeader />}
         styles={(theme) => ({
           main: {
             backgroundColor: "white",
           },
         })}
       >
-        <MainLandingPage />
+        <LandingPageMain />
 
         {/* <Timer /> */}
       </AppShell>
