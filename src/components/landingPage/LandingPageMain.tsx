@@ -5,7 +5,9 @@ import {
   IconArrowBadgeLeftFilled,
   IconArrowBadgeRightFilled,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { LandingPageHeader } from "./LandingPageHeader";
 import { LandingPageHomeFirst } from "./LandingPageHomeFirst";
 import { LandingPageHomeSecond } from "./LandingPageHomeSecond";
@@ -16,9 +18,19 @@ export const LandingPageMain = () => {
 
   const [homePage, toggleHomePage] = useToggle([true, false]);
 
+  const session = useSession();
+
+  const router = useRouter();
+
   const onMenuChange = (menuOption: LandingPageMenuOptions) => {
     setMenuOption(menuOption);
   };
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.push("/main");
+    }
+  }, [router, session.status]);
 
   return (
     <>

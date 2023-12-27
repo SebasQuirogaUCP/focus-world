@@ -1,9 +1,12 @@
-import { NextApiRequest } from "next";
-import { User } from "next-auth";
+import { getToken } from "next-auth/jwt";
+import { NextRequest } from "next/server";
 
-export const GetUserFromRequest = (req: NextApiRequest) => {
-  const user = req.headers["x-focus-world"] as string | undefined;
-  if (!user) return;
+export const GetUserFromRequest = async (req: NextRequest) => {
+  const nextAuthToken = await getToken({ req });
+  // TODO: Look for the user id on the database to validate it exists
 
-  return JSON.parse(user) as User;
+  if (!nextAuthToken || !nextAuthToken?.sub) return;
+
+  // TODO: Retriving user from the database and returning it
+  return nextAuthToken;
 };
