@@ -11,9 +11,9 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconChartHistogram, IconMenu2 } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
+import { CustomLogin } from "./CustomLogin";
 import { FocusDrawer } from "./FocusDrawer";
 import { HeaderMenu } from "./HeaderMenu";
-import { CustomLogin } from "./Login";
 import { TaskDrawer } from "./TaskDrawer/TasksDrawer";
 import { useStyles } from "./hooks/useStyles";
 

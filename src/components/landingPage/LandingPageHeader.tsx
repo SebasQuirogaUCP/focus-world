@@ -1,6 +1,8 @@
 import { LandingPageMenuOptions } from "@/models/landingPage/LandingPagePaths";
-import { Button, Container, Grid, Group } from "@mantine/core";
+import { Button, Container, Grid, Group, Modal } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Image from "next/image";
+import { CustomLogin } from "../CustomLogin";
 import { useStyles } from "../hooks/useStyles";
 
 type Props = {
@@ -9,42 +11,52 @@ type Props = {
 
 export const LandingPageHeader = ({ routerCB }: Props) => {
   const { classes, cx } = useStyles();
-
+  const [opened, { open, close }] = useDisclosure(false);
   return (
-    <div className={classes.headerBackground}>
-      <Grid>
-        <Grid.Col span={8}>
-          <Container>
-            <Group position="left" spacing={"md"}>
-              <Image src={""} alt={"BeatTime logo"} />
+    <>
+      <Modal onClose={close} opened={opened} title="Log in">
+        <CustomLogin />
+      </Modal>
+      <div className={classes.headerBackground}>
+        <Grid>
+          <Grid.Col span={8}>
+            <Container>
+              <Group position="left" spacing={"md"}>
+                <Image src={""} alt={"BeatTime logo"} />
+                <Button
+                  variant="subtle"
+                  color="primary"
+                  onClick={() => routerCB("home")}
+                >
+                  Home
+                </Button>
+                <Button
+                  variant="subtle"
+                  color="primary"
+                  onClick={() => routerCB("leaderboard")}
+                >
+                  Leaderboard
+                </Button>
+              </Group>
+            </Container>
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Group position="right">
               <Button
-                variant="subtle"
+                variant="filled"
                 color="primary"
-                onClick={() => routerCB("home")}
+                size={"xs"}
+                onClick={open}
               >
-                Home
+                Login
               </Button>
-              <Button
-                variant="subtle"
-                color="primary"
-                onClick={() => routerCB("leaderboard")}
-              >
-                Leaderboard
+              <Button variant="outline" color="primary" size={"xs"} mr={"sm"}>
+                Sign In
               </Button>
             </Group>
-          </Container>
-        </Grid.Col>
-        <Grid.Col span={4}>
-          <Group position="right">
-            <Button variant="filled" color="primary" size={"xs"}>
-              Login
-            </Button>
-            <Button variant="outline" color="primary" size={"xs"} mr={"sm"}>
-              Sign In
-            </Button>
-          </Group>
-        </Grid.Col>
-      </Grid>
-    </div>
+          </Grid.Col>
+        </Grid>
+      </div>
+    </>
   );
 };
